@@ -1,0 +1,50 @@
+globalThis.__BUILD_MANIFEST = {
+  "pages": {
+    "/_app": [
+      "static/chunks/1h08_next_dist_compiled_1vyi2yu._.js",
+      "static/chunks/1h08_next_dist_shared_lib_0m34xvv._.js",
+      "static/chunks/1h08_next_dist_client_0x75xjk._.js",
+      "static/chunks/1h08_next_dist_0ws5ho9._.js",
+      "static/chunks/1h08_next_app_12ad7r0.js",
+      "static/chunks/[next]_entry_page-loader_ts_0scbzzq._.js",
+      "static/chunks/1h08_react-dom_1wpzha8._.js",
+      "static/chunks/1h08_0mu9u-c._.js",
+      "static/chunks/[root-of-the-server]__1x1nfnx._.js",
+      "static/chunks/voice-research-agent_voice-research-agent_pages__app_0du2_q-._.js",
+      "static/chunks/turbopack-voice-research-agent_voice-research-agent_pages__app_1qokujc._.js"
+    ],
+    "/_error": [
+      "static/chunks/1h08_next_dist_compiled_1vyi2yu._.js",
+      "static/chunks/1h08_next_dist_shared_lib_0b36bb0._.js",
+      "static/chunks/1h08_next_dist_client_0x75xjk._.js",
+      "static/chunks/1h08_next_dist_1f3m59i._.js",
+      "static/chunks/[next]_entry_page-loader_ts_0tri306._.js",
+      "static/chunks/1h08_react-dom_1wpzha8._.js",
+      "static/chunks/1h08_0mu9u-c._.js",
+      "static/chunks/[root-of-the-server]__1npb46q._.js",
+      "static/chunks/voice-research-agent_voice-research-agent_pages__error_0du2_q-._.js",
+      "static/chunks/turbopack-voice-research-agent_voice-research-agent_pages__error_1bbbm5v._.js"
+    ]
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/1h08_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [
+    "static/development/_buildManifest.js",
+    "static/development/_ssgManifest.js",
+    "static/development/_clientMiddlewareManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_0c_ni7x._.js",
+    "static/chunks/1h08_next_dist_compiled_next-devtools_index_1ev9mcq.js",
+    "static/chunks/1h08_next_dist_compiled_react-dom_0o8-mqa._.js",
+    "static/chunks/1h08_next_dist_compiled_react-server-dom-turbopack_0po_8ja._.js",
+    "static/chunks/1h08_next_dist_compiled_0k_12ji._.js",
+    "static/chunks/1h08_next_dist_client_13b8g1a._.js",
+    "static/chunks/1h08_next_dist_06tzqdq._.js",
+    "static/chunks/1h08_@swc_helpers_cjs_1aiakvf._.js",
+    "static/chunks/voice-research-agent_voice-research-agent_1anvha4._.js",
+    "static/chunks/turbopack-voice-research-agent_voice-research-agent_1vd9hf_._.js"
+  ]
+};
