@@ -9,6 +9,10 @@ import ImageGallery from './components/ImageGallery';
 import Timeline from './components/Timeline';
 import FollowupQuestions from './components/FollowupQuestions';
 
+// In development: VITE_API_URL is undefined → Vite proxy forwards /api → localhost:5000
+// In production (Vercel): VITE_API_URL is set to the Render backend URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+
 function App() {
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -41,7 +45,7 @@ function App() {
         }, time);
       });
 
-      const response = await fetch('/api/research', {
+      const response = await fetch(`${API_BASE_URL}/api/research`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: searchQuery }),
