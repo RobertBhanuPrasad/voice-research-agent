@@ -8,16 +8,16 @@ const contextClient = new ContextDev({
 });
 
 export const searchWeb = async (query) => {
-  try {
-    const response = await contextClient.web.search({
-      query,
-      markdownOptions: { enabled: true }
-    });
-    return response.results || [];
-  } catch (error) {
-    console.error('Context.dev Search Error:', error);
-    return [];
-  }
+  // Log key presence (never log the actual key)
+  console.log('CONTEXT_API_KEY set:', !!process.env.CONTEXT_API_KEY);
+  
+  const response = await contextClient.web.search({
+    query,
+    markdownOptions: { enabled: true }
+  });
+  
+  console.log('Context.dev raw response keys:', Object.keys(response || {}));
+  return response.results || [];
 };
 
 export const scrapeUrl = async (url) => {

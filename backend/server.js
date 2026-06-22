@@ -19,6 +19,16 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Context Research Studio Backend Running' });
 });
 
+// Debug: check env vars are set (never expose actual values)
+app.get('/debug', (req, res) => {
+  res.json({
+    CONTEXT_API_KEY_SET: !!process.env.CONTEXT_API_KEY,
+    CONTEXT_API_KEY_LENGTH: process.env.CONTEXT_API_KEY ? process.env.CONTEXT_API_KEY.length : 0,
+    PORT: process.env.PORT,
+    NODE_ENV: process.env.NODE_ENV
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
