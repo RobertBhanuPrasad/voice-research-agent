@@ -1,65 +1,79 @@
-import ContextDev from 'context.dev';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Reusable service file for Context.dev API
-const contextClient = new ContextDev({
-  apiKey: process.env.CONTEXT_API_KEY,
-});
+// Use direct REST API calls instead of the SDK to avoid constructor-throw
+// issues when CONTEXT_API_KEY is read at module-initialization time on Render.
+const CONTEXT_API_BASE = 'https://api.context.dev/v1';
+
+const getHeaders = () => {
+  const key = process.env.CONTEXT_API_KEY;
+  if (!key) throw new Error('CONTEXT_API_KEY is not set in environment variables.');
+  return {
+    'Authorization': `Bearer ${key}`,
+    'Content-Type': 'application/json',
+  };
+};
 
 export const searchWeb = async (query) => {
-  // Log key presence (never log the actual key)
   console.log('CONTEXT_API_KEY set:', !!process.env.CONTEXT_API_KEY);
-  
-  const response = await contextClient.web.search({
-    query,
-    markdownOptions: { enabled: true }
+
+  const res = await fetch(`${CONTEXT_API_BASE}/web/search`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ query, markdownOptions: { enabled: false } }),
   });
-  
-  console.log('Context.dev raw response keys:', Object.keys(response || {}));
-  return response.results || [];
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Context.dev /web/search failed [${res.status}]: ${errText}`);
+  }
+
+  const data = await res.json();
+  console.log('Context.dev search credits remaining:', data.key_metadata?.credits_remaining);
+  return data.results || [];
 };
 
 export const scrapeUrl = async (url) => {
   try {
-    const response = await contextClient.web.webScrapeMarkdown({ url });
-    return response.markdown || '';
+    const res = await fetch(`${CONTEXT_API_BASE}/web/scrape/markdown?url=${encodeURIComponent(url)}`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
+    if (!res.ok) return '';
+    const data = await res.json();
+    return data.markdown || '';
   } catch (error) {
-    console.error(`Context.dev Scrape Error for ${url}:`, error);
+    console.error(`Context.dev Scrape Error for ${url}:`, error.message);
     return '';
   }
 };
 
 export const getImages = async (url) => {
   try {
-    const response = await contextClient.web.webScrapeImages({ url });
-    return response.images || [];
+    const res = await fetch(`${CONTEXT_API_BASE}/web/scrape/images?url=${encodeURIComponent(url)}`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.images || [];
   } catch (error) {
-    console.error(`Context.dev Image Extraction Error for ${url}:`, error);
+    console.error(`Context.dev Image Extraction Error for ${url}:`, error.message);
     return [];
   }
 };
 
-// Add placeholder for crawlSite, extractStructuredData, getBrandData as requested
-export const crawlSite = async (url) => {
-  // Replace with exact Context.dev endpoint from official docs
-  // Example: return contextClient.web.crawlWebsite({ url });
-  console.warn('crawlSite is a placeholder. See Context.dev documentation.');
-  return [];
-};
-
-export const extractStructuredData = async (url, schema) => {
-  // Replace with exact Context.dev endpoint from official docs
-  console.warn('extractStructuredData is a placeholder. See Context.dev documentation.');
-  return {};
-};
-
 export const getBrandData = async (domain) => {
   try {
-    const response = await contextClient.brand.retrieve({ domain });
-    return response.brand || null;
+    const res = await fetch(`${CONTEXT_API_BASE}/brand?domain=${encodeURIComponent(domain)}`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.brand || null;
   } catch (error) {
-    console.error(`Context.dev Brand Data Error for ${domain}:`, error);
+    console.error(`Context.dev Brand Data Error for ${domain}:`, error.message);
     return null;
   }
 };
